@@ -34,18 +34,33 @@
 
 	<div style="background-color: #f2f2f2; padding: 20px; font-size: 12pt; color: #000; margin-top: 10px; text-align: center; border-radius: 5px;">
 		
-		<h4 style="padding: 10px; text-align: left;">Total de disciplinas ministradas por professor:</h4>
-		
+				
 		<?php
 			
 			require_once('conect.php');
 			
+			// Buscando total de professores demandados ao DHS
+			$sql_s = $conn->prepare("select SIAPE_PROF, COUNT(*) AS siape FROM prof");
+			$sql_s->execute();
+			$result_s = $sql_s->fetch();
+			echo "<h4 style='padding: 10px; text-align: left;'>Total de professores demandados: " . $result_s['siape'] ."</h4>";
+			
+			// Buscando total de disciplinas ofertadas pelo DHS
+			$sql_d = $conn->prepare("select NOM_DISC, COUNT(*) AS disc FROM disc");
+			$sql_d->execute();
+			$result_d = $sql_d->fetch();
+			echo "<h4 style='padding: 10px; text-align: left;'>Total de disciplinas ofertadas: " . $result_d['disc'] ."</h4>";
+			
+			// Buscando total de disciplinas por professor
 			$sql_a = $conn->prepare("select FK_NOM_PROF, COUNT(*) AS count FROM reltab GROUP BY FK_NOM_PROF");
 			$sql_a->execute();
 			
 			
 		?>
+				
 		
+		<h4 style="padding: 10px; text-align: center;">RELAÇÃO PROFESSOR / DISCIPLINAS</h4>
+
 		
 		<!--Tabela com quantidade de disciplina por professor-->	
 		
