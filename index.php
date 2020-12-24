@@ -73,8 +73,8 @@ Tipo: Dashboard - Tela de Administrador
 				<button class="<?php if(isset($_POST['st']))	{echo 'nav-active';}else{echo 
 				'nav';} ?>" name="st"><img src="icon/check50.png" class="icon-dash"><div class="text-dash">SEGURANCA DO TRABALHO</div></button>					
 
-				<!--<button class="<?php if(isset($_POST['sair']))	{echo 'nav-active';}else{echo 
-					'nav';} ?>" name="sair"><img src="icon/logout50.png" class="icon-dash"><div class="text-dash">SAIR</div></button>-->
+				<button class="<?php if(isset($_POST['sair']))	{echo 'nav-active';}else{echo 
+					'nav';} ?>" name="sair"><img src="icon/logout50.png" class="icon-dash"><div class="text-dash">SAIR</div></button>
 			
 			</form>
 		</div>
