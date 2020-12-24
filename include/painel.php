@@ -45,16 +45,21 @@
 			$result_s = $sql_s->fetch();
 			echo "<h4 style='padding: 10px; text-align: left;'>Total de professores demandados: " . $result_s['siape'] ."</h4>";
 			
-			// Buscando total de disciplinas ofertadas pelo DHS
+			// Buscando total de disciplinas ofertadas de forma individual pelo DHS
 			$sql_d = $conn->prepare("select NOM_DISC, COUNT(*) AS disc FROM disc");
 			$sql_d->execute();
 			$result_d = $sql_d->fetch();
-			echo "<h4 style='padding: 10px; text-align: left;'>Total de disciplinas ofertadas: " . $result_d['disc'] ."</h4>";
+			echo "<h4 style='padding: 10px; text-align: left;'>Total de disciplinas: " . $result_d['disc'] ."</h4>";
 			
-			// Buscando total de disciplinas por professor
-			$sql_a = $conn->prepare("select FK_NOM_PROF, COUNT(*) AS count FROM reltab GROUP BY FK_NOM_PROF");
+			// Buscando total de disciplinas ofertadas agrupadas por quantidade total
+			$sql_c = $conn->prepare("select FK_SIGL_DISC, COUNT(*) AS sigl FROM reltab");
+			$sql_c->execute();
+			$result_c = $sql_c->fetch();
+			echo "<h4 style='padding: 10px; text-align: left;'>Total de disciplinas ofertadas por curso: " . $result_c['sigl'] ."</h4>";
+
+			// Buscando total de disciplinas por professor para construção da tabela abaixo
+			$sql_a = $conn->prepare("select FK_NOM_PROF, FK_SIGL_DISC, COUNT(*) AS count FROM reltab GROUP BY FK_NOM_PROF, FK_SIGL_DISC");
 			$sql_a->execute();
-			
 			
 		?>
 				
@@ -67,21 +72,37 @@
 		<table>
 			<tr>
 				<th>Nome</th>
-				<th>Quant.</th>
+				<th>Disciplina</th>
+				<th>Quantidade</th>
 			</tr>
 			
 		<?php
 			
+			// Tabela relacional - Professor/Disciplina/Quantidade com "While"
+
 			while($result_a = $sql_a->fetch())
 			{
 				
-				echo "<tr><td>". $result_a['FK_NOM_PROF'] ."</td>
-				<td>". $result_a['count'] ."</td></tr>";
-			
+				echo "
+				<tr>
+					<td>". $result_a['FK_NOM_PROF'] ."</td><td>" . $result_a['FK_SIGL_DISC'] . "</td><td>" . $result_a['count'] ."</td>
+				</tr>
+				";
+				
+				
 			}
 			
 			
 		?>
+			
+			<!--****** Total de disciplinas/curso atendidas ******-->
+			
+			<tr>
+				<td><b>Total de disciplinas</b></td>
+				<td> - </td>
+				<td><?php echo "<b>".$result_c['sigl']."</b>"; ?></td>
+			</tr>
+			
 		</table>
 	</div>
 

@@ -1,10 +1,7 @@
 <!--
-Data: 23 de fevereiro de 2020
+Data: 13 de Dezembro de 2020
 Autor: By Neiver 
-Tipo: Dashboard para PET Creche - Tela de Administrador
-*Criar tela de Caixa
-*Criar tela de funcionários com recepção e entrega de cachorros
-*Fazer revisão de "name" do menu
+Tipo: Dashboard - Tela de Administrador
 -->
 <!DOCTYPE html>
 <html>
@@ -12,15 +9,25 @@ Tipo: Dashboard para PET Creche - Tela de Administrador
 	<title>HORÁRIOS DHS</title>
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 	<link rel="stylesheet" media="all and (orientation:landscape)" href="css/style.css">
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap" rel="stylesheet">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
 </head>
+	<style>
+		.google-fonts{
+			font-family: 'Kaushan Script', cursive;
+			font-size: 20pt;
+			color: gray;
+		}
+	</style>
 <body>
 
 	<div class="top">
+		
 		<div class="logo">
-			
-			<!-- OCULTANDO IMAGEM -------<a href="index.php"><img src="icon/score.png" width="30"><br>HORÁRIOS DHS</a>----- OCULTANDO IMAGEM --------->
+			<div class="google-fonts">DHSdash</div>
 		</div>
+
 	</div>
 	<div class="content-geral">		
 		<div class="content-left">

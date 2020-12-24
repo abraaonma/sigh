@@ -29,6 +29,11 @@ body{
 	color: black;
 	margin-left: 25%;
 }
+
+.google-fonts{
+	font-family: 'Kaushan Script', cursive;
+}
+
 .footer{
 	clear: both;
 	background-color: #2e2e2e;
