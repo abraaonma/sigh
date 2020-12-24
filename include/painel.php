@@ -39,32 +39,95 @@
 			
 			require_once('conect.php');
 			
-			// Buscando total de professores demandados ao DHS
+			//------------- Sql's de consultas -------------
+
+			// 1. Buscando total de professores demandados ao DHS
 			$sql_s = $conn->prepare("select SIAPE_PROF, COUNT(*) AS siape FROM prof");
 			$sql_s->execute();
 			$result_s = $sql_s->fetch();
-			echo "<h4 style='padding: 10px; text-align: left;'>Total de professores demandados: " . $result_s['siape'] ."</h4>";
+			// ** Total de professores demandados: $result_s['siape'] -- ** Comentário
 			
-			// Buscando total de disciplinas ofertadas de forma individual pelo DHS
+			// 2. Buscando total de disciplinas ofertadas de forma individual pelo DHS
 			$sql_d = $conn->prepare("select NOM_DISC, COUNT(*) AS disc FROM disc");
 			$sql_d->execute();
 			$result_d = $sql_d->fetch();
-			echo "<h4 style='padding: 10px; text-align: left;'>Total de disciplinas: " . $result_d['disc'] ."</h4>";
+			// ** Total de disciplinas: $result_d['disc'] -- ** Comentário
 			
-			// Buscando total de disciplinas ofertadas agrupadas por quantidade total
+			// 3. Buscando total de disciplinas ofertadas agrupadas por quantidade total
 			$sql_c = $conn->prepare("select FK_SIGL_DISC, COUNT(*) AS sigl FROM reltab");
 			$sql_c->execute();
 			$result_c = $sql_c->fetch();
-			echo "<h4 style='padding: 10px; text-align: left;'>Total de disciplinas ofertadas por curso: " . $result_c['sigl'] ."</h4>";
-
-			// Buscando total de disciplinas por professor para construção da tabela abaixo
+			// ** Total de disciplinas ofertadas por curso: $result_c['sigl'] -- ** Comenttário
+			
+			// 4. Buscando total de disciplinas por disciplina (pelo nome)
+			$sql_disc = $conn->prepare("select FK_NOM_DISC, COUNT(*) AS count_disc FROM reltab GROUP BY FK_NOM_DISC");
+			$sql_disc->execute();
+			
+			// 5. Buscando total de disciplinas por professor para construção da tabela abaixo
 			$sql_a = $conn->prepare("select FK_NOM_PROF, FK_SIGL_DISC, COUNT(*) AS count FROM reltab GROUP BY FK_NOM_PROF, FK_SIGL_DISC");
 			$sql_a->execute();
+
 			
 		?>
+			<!------------- Itens 1, 2, 3 das Sql's acima ------------->
+			<div class="google-fonts">DADOS GERAIS</div>
+
+			<table>
 				
+				<tr>
+					<td style="text-align: left">Total de professores demandados: </td>
+					<td><?php echo $result_s['siape']; ?></td>
+				</tr>
+				<tr>
+					<td style="text-align: left">Total de disciplinas por ementa: </td>
+					<td><?php echo $result_d['disc']; ?></td>
+				</tr>
+				<tr>
+					<td style="text-align: left">Total de disciplinas ofertadas por curso: </td>
+					<td><?php echo $result_c['sigl']; ?></td>
+				</tr>
+				
+			</table>
+
+		</div>
+
+		<div style="background-color: #f2f2f2; padding: 20px; font-size: 12pt; color: #000; margin-top: 10px; text-align: center; border-radius: 5px;">
+
+		<!------------- Iten 4 das Sql's acima ------------->
 		
-		<h4 style="padding: 10px; text-align: center;">RELAÇÃO PROFESSOR / DISCIPLINAS</h4>
+		<div class="google-fonts">RELAÇÃO DE DISCIPLINAS / QUANTIDADE</div>
+		
+		<table>
+		
+		<?php
+			
+			while($result_disc = $sql_disc->fetch())
+			
+			{
+				echo 
+				"
+				<tr>
+					<td style='text-align: left'>". $result_disc['FK_NOM_DISC'] ."</td>
+					<td>". $result_disc['count_disc'] ."</td>
+				</tr>
+				";
+			}
+
+		?>
+
+			
+			
+		</table>
+
+		</div>
+
+		
+		<div style="background-color: #f2f2f2; padding: 20px; font-size: 12pt; color: #000; margin-top: 10px; text-align: center; border-radius: 5px;">
+	
+
+		<!------------- Item 5 das Sql's acima ------------->
+
+		<div class="google-fonts">RELAÇÃO PROFESSOR / DISCIPLINAS</div>
 
 		
 		<!--Tabela com quantidade de disciplina por professor-->	
